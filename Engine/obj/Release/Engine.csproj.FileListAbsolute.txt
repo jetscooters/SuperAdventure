@@ -1,0 +1,5 @@
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\bin\Release\Engine.dll
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\bin\Release\Engine.pdb
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Release\Engine.csproj.CoreCompileInputs.cache
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Release\Engine.dll
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Release\Engine.pdb

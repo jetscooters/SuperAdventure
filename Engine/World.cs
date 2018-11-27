@@ -26,6 +26,7 @@ namespace Engine
         private static void PopulateItems()
         {
             Items.Add(new Weapon("Rusty sword", "Rusty swords", 0, 5, "This sword has seen better days.", 5));
+            Items.Add(new Weapon("Broadsword", "Broadswords", 5, 9, "A blade worthy of a lord.", 7));
             Items.Add(new Item("Piece of fur", "Pieces of fur", "Fur from some kind of mammal.", 1));
             Items.Add(new Item("Rat tail", "Rat tails", "The severed tail of a rodent.", 1));
             Items.Add(new Item("Snake fang", "Snake fangs", "The teeth of a serpent.", 1));
@@ -61,11 +62,12 @@ namespace Engine
             Quest clearAlchemistGarden =
                 new Quest(
                     "Clear the alchemist's garden",
-                    "Kill rats in the alchemist's garden and bring back 3 rat tails. You will receive a healing potion and 10 gold pieces.", 20, 10);
+                    "Kill rats in the alchemist's garden and bring back 3 rat tails. You will receive a broadsword and 10 gold pieces.",
+                    20, 10);
 
             clearAlchemistGarden.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Rat tail"), 3));
 
-            clearAlchemistGarden.RewardItem = ItemByName("Healing potion");
+            clearAlchemistGarden.RewardItem = ItemByName("Broadsword");
 
             Quest clearFarmersField =
                 new Quest(

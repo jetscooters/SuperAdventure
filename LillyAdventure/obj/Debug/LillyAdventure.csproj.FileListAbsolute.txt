@@ -1,0 +1,13 @@
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\bin\Debug\LillyAdventure.exe.config
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\bin\Debug\LillyAdventure.exe
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\bin\Debug\LillyAdventure.pdb
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\bin\Debug\Engine.dll
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\bin\Debug\Engine.pdb
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.csprojResolveAssemblyReference.cache
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.LillyAdventure.resources
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.Properties.Resources.resources
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.csproj.GenerateResource.Cache
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.csproj.CoreCompileInputs.cache
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.exe
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.pdb
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\LillyAdventure\obj\Debug\LillyAdventure.TradingScreen.resources

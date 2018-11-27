@@ -1,0 +1,6 @@
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\bin\Debug\Engine.dll
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\bin\Debug\Engine.pdb
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Debug\Engine.csprojResolveAssemblyReference.cache
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Debug\Engine.csproj.CoreCompileInputs.cache
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Debug\Engine.dll
+C:\Users\desol\Documents\Programming Stuff\C#\LillyAdventure\Engine\obj\Debug\Engine.pdb

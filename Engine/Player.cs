@@ -237,13 +237,20 @@ namespace Engine
                             RaiseMessage("You receive: ", false);
                             RaiseMessage(newLocation.QuestAvailableHere.RewardExperiencePoints.ToString() + " experience points.", false);
                             RaiseMessage(newLocation.QuestAvailableHere.RewardGold.ToString() + " gold.", false);
-                            RaiseMessage(newLocation.QuestAvailableHere.RewardItem.Name + ".", true);
+                            foreach (Item i in newLocation.QuestAvailableHere.RewardItems)
+                            {
+                                RaiseMessage(i.Name + ".", true);
+                            }
+                            
 
                             AddExperiencePoints(newLocation.QuestAvailableHere.RewardExperiencePoints);
                             Gold += newLocation.QuestAvailableHere.RewardGold;
 
-                            // Add the reward item to the player's inventory
-                            AddItemToInventory(newLocation.QuestAvailableHere.RewardItem);
+                            // Add the reward item to the player's inventory                            
+                            foreach (Item i in newLocation.QuestAvailableHere.RewardItems)
+                            {
+                                AddItemToInventory(i);
+                            }
 
                             // Mark the quest as completed
                             // Find the quest in the player's quest list

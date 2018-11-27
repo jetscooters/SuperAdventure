@@ -69,7 +69,8 @@ namespace Engine
                     20, 10);
 
             clearAlchemistGarden.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Rat tail"), 3));
-            clearAlchemistGarden.RewardItem = ItemByName("Broadsword");
+            clearAlchemistGarden.RewardItems.Add(ItemByName("Healing potion"));
+            clearAlchemistGarden.RewardItems.Add(ItemByName("Broadsword"));
             clearAlchemistGarden.WriteRealDescription();
 
             Quest clearFarmersField =
@@ -79,7 +80,7 @@ namespace Engine
                     20, 20);
 
             clearFarmersField.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Snake fang"), 3));
-            clearFarmersField.RewardItem = ItemByName("Adventurer pass");
+            clearFarmersField.RewardItems.Add(ItemByName("Adventurer pass"));
             clearFarmersField.WriteRealDescription();
 
             Quests.Add(clearAlchemistGarden);

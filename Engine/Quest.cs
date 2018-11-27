@@ -23,11 +23,21 @@ namespace Engine
             NextID++;
 
             Name = name;
-            Description = description;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
             RewardItem = rewardItem;
             QuestCompletionItems = new List<QuestCompletionItem>();
+
+            Description = description;
+        }
+
+        public void WriteRealDescription()
+        {
+            Description += "\n"
+               + "Rewards: \n"
+               + RewardExperiencePoints + " experience\n"
+               + RewardGold + " gold\n"
+               + RewardItem.Name;
         }
     }
 }

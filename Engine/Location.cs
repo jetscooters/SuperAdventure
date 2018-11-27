@@ -8,7 +8,6 @@ namespace Engine
 {
     public class Location
     {
-        //Testing out git
         public static int NextID = 0;
         public int ID { get; set; }
         public string Name { get; set; }

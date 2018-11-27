@@ -110,7 +110,7 @@ namespace LillyAdventure
             int row = e.RowIndex;
             int col = dgvInventory.Columns["Name"].Index;
             DataGridViewCell cell = dgvInventory[col, row];
-            Item item = World.ItemByName(dgvInventory[col, row].Value.ToString());
+            Item item = World.ItemByName(cell.Value.ToString());
 
             if(item != null)
             {
@@ -123,11 +123,10 @@ namespace LillyAdventure
             int row = e.RowIndex;
             int col = dgvQuests.Columns["Name"].Index;
             DataGridViewCell cell = dgvQuests[col, row];
-            Quest item = World.QuestByName(dgvQuests[col, row].Value.ToString());
+            Quest item = World.QuestByName(cell.Value.ToString());
 
             if (item != null)
             {
-                Console.WriteLine(item.Description);
                 cell.ToolTipText = item.Description;
             }
         }

@@ -57,26 +57,30 @@ namespace Engine
             Monsters.Add(giantSpider);
         }
 
+        //PopulateQuests has a frankly ugly fix for a mysterious bug. When I put the code in the WriteRealDescription function into
+        //the Quest constructor, it just makes the whole project break. Supposedly there's a null reference exceprion when the 
+        //game tries to load in the first thing referencing the World class. It's weird.
         private static void PopulateQuests()
         {
             Quest clearAlchemistGarden =
                 new Quest(
                     "Clear the alchemist's garden",
-                    "Kill rats in the alchemist's garden and bring back 3 rat tails. You will receive a broadsword and 10 gold pieces.",
+                    "Kill rats in the alchemist's garden and bring back 3 rat tails.",
                     20, 10);
 
             clearAlchemistGarden.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Rat tail"), 3));
-
             clearAlchemistGarden.RewardItem = ItemByName("Broadsword");
+            clearAlchemistGarden.WriteRealDescription();
 
             Quest clearFarmersField =
                 new Quest(
                     "Clear the farmer's field",
-                    "Kill snakes in the farmer's field and bring back 3 snake fangs. You will receive an adventurer's pass and 20 gold pieces.", 20, 20);
+                    "Kill snakes in the farmer's field and bring back 3 snake fangs.",
+                    20, 20);
 
             clearFarmersField.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Snake fang"), 3));
-
             clearFarmersField.RewardItem = ItemByName("Adventurer pass");
+            clearFarmersField.WriteRealDescription();
 
             Quests.Add(clearAlchemistGarden);
             Quests.Add(clearFarmersField);

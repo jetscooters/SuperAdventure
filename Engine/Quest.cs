@@ -14,7 +14,7 @@ namespace Engine
         public string Description { get; set; }
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
-        public List<Item> RewardItems { get; set; }
+        public List<InventoryItem> RewardItems { get; set; }
         public List<QuestCompletionItem> QuestCompletionItems { get; set; }
 
         public Quest(string name, string description, int rewardExperiencePoints, int rewardGold)
@@ -25,24 +25,21 @@ namespace Engine
             Name = name;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
-            RewardItems = new List<Item>();
+            RewardItems = new List<InventoryItem>();
             QuestCompletionItems = new List<QuestCompletionItem>();
 
-            Description = description;
+            Description = description + "\n" +
+                rewardGold + " Gold.\n" +
+                rewardExperiencePoints + " Experience.\n";
         }
 
-        public void WriteRealDescription()
+        public void AddRewardItem(Item item, int quantity)
         {
-            string items = "";
-            foreach (Item i in RewardItems)
-            {
-                items += i.Name + "\n";
-            }
-            Description += "\n"
-               + "Rewards: \n"
-               + RewardExperiencePoints + " experience\n"
-               + RewardGold + " gold\n"
-               + items;
+            RewardItems.Add(new InventoryItem(item, quantity));
+
+            Description += quantity + " ";
+            Description += (quantity > 1 ? item.NamePlural : item.Name);
+            Description += "\n";
         }
     }
 }

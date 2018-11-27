@@ -9,12 +9,12 @@ namespace Engine
     public class LootItem
     {
         public Item Details { get; set; }
-        public bool IsDefaultItem { get; set; }
+        public int Number { get; set; }
 
-        public LootItem(Item details, bool isDefaultItem)
+        public LootItem(Item details, int quantity = 1)
         {
             Details = details;
-            IsDefaultItem = isDefaultItem;
+            Number = quantity;
         }
 
         public override string ToString()

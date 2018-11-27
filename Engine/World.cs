@@ -10,17 +10,17 @@ namespace Engine
     {
         public static readonly List<Item> Items = new List<Item>();
         public static readonly List<Monster> Monsters = new List<Monster>();
-        public static readonly List<Quest> Quests = new List<Quest>();
-        public static readonly List<Location> Locations = new List<Location>();
+        public static List<Quest> Quests = new List<Quest>();
+        public static List<Location> Locations = new List<Location>();
 
         public const int UNSELLABLE_ITEM_PRICE = -1;
 
         static World()
         {
-            PopulateItems();
-            PopulateMonsters();
-            PopulateQuests();
-            PopulateLocations();
+            //PopulateItems();
+            //PopulateMonsters();
+            //PopulateQuests();
+            //PopulateLocations();
         }
 
         private static void PopulateItems()
@@ -32,6 +32,9 @@ namespace Engine
             Items.Add(new Item("Snake fang", "Snake fangs", "The teeth of a serpent.", 1));
             Items.Add(new Item("Snakeskin", "Snakeskins", "Skin from a snake.", 2));
             Items.Add(new Weapon("Club", "Clubs", 7, 10, "A heavy length of wood.", 8));
+
+            Items.Add(new Tool("Felling axe", "Felling axes", 7, 10, "An axe used to cut trees.", 7, ToolType.AXE));
+
             Items.Add(new HealingPotion("Healing potion", "Healing potions", 5, "A simple healing tincture.", 3));
             Items.Add(new Item("Spider fang", "Spider fangs", "A fang from some giant arachnoid.", 1));
             Items.Add(new Item("Spider silk", "Spider silks", "They say the stuff is stronger than steel.", 1));
@@ -41,25 +44,22 @@ namespace Engine
         private static void PopulateMonsters()
         {
             Monster rat = new Monster("Rat", 5, 3, 10, 3, 3);
-            rat.WeightedLootTable.AddItem(new LootItem(ItemByName("Rat tail"), false), 10);
-            rat.WeightedLootTable.AddItem(new LootItem(ItemByName("Piece of fur"), false), 30);
+            rat.WeightedLootTable.AddItem(new LootItem(ItemByName("Rat tail")), 10);
+            rat.WeightedLootTable.AddItem(new LootItem(ItemByName("Piece of fur")), 30);
 
             Monster snake = new Monster("Snake", 5, 3, 10, 3, 3);
-            snake.WeightedLootTable.AddItem(new LootItem(ItemByName("Snake fang"), false), 10);
-            snake.WeightedLootTable.AddItem(new LootItem(ItemByName("Snakeskin"), true), 10);
+            snake.WeightedLootTable.AddItem(new LootItem(ItemByName("Snake fang"), 3), 10);
+            snake.WeightedLootTable.AddItem(new LootItem(ItemByName("Snakeskin")), 10);
 
             Monster giantSpider = new Monster("Giant spider", 20, 5, 40, 10, 10);
-            giantSpider.WeightedLootTable.AddItem(new LootItem(ItemByName("Spider fang"), true), 3);
-            giantSpider.WeightedLootTable.AddItem(new LootItem(ItemByName("Spider silk"), false), 1);
+            giantSpider.WeightedLootTable.AddItem(new LootItem(ItemByName("Spider fang"), 2), 3);
+            giantSpider.WeightedLootTable.AddItem(new LootItem(ItemByName("Spider silk"), 3), 1);
 
             Monsters.Add(rat);
             Monsters.Add(snake);
             Monsters.Add(giantSpider);
         }
 
-        //PopulateQuests has a frankly ugly fix for a mysterious bug. When I put the code in the WriteRealDescription function into
-        //the Quest constructor, it just makes the whole project break. Supposedly there's a null reference exceprion when the 
-        //game tries to load in the first thing referencing the World class.
         private static void PopulateQuests()
         {
             Quest clearAlchemistGarden =
@@ -69,9 +69,8 @@ namespace Engine
                     20, 10);
 
             clearAlchemistGarden.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Rat tail"), 3));
-            clearAlchemistGarden.RewardItems.Add(ItemByName("Healing potion"));
-            clearAlchemistGarden.RewardItems.Add(ItemByName("Broadsword"));
-            clearAlchemistGarden.WriteRealDescription();
+            clearAlchemistGarden.AddRewardItem(ItemByName("Healing potion"), 3);
+            clearAlchemistGarden.AddRewardItem(ItemByName("Broadsword"), 1);
 
             Quest clearFarmersField =
                 new Quest(
@@ -80,8 +79,7 @@ namespace Engine
                     20, 20);
 
             clearFarmersField.QuestCompletionItems.Add(new QuestCompletionItem(ItemByName("Snake fang"), 3));
-            clearFarmersField.RewardItems.Add(ItemByName("Adventurer pass"));
-            clearFarmersField.WriteRealDescription();
+            clearFarmersField.AddRewardItem(ItemByName("Adventurer pass"), 1);
 
             Quests.Add(clearAlchemistGarden);
             Quests.Add(clearFarmersField);
@@ -210,6 +208,15 @@ namespace Engine
         {
             return Locations.SingleOrDefault(l => l.Name.Equals(name));
         }
+
+        public static void Initi()
+        {
+            PopulateItems();
+            PopulateMonsters();
+            PopulateQuests();
+            PopulateLocations();
+        }
+
     }
 
     

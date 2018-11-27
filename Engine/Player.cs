@@ -68,7 +68,7 @@ namespace Engine
 
         public event EventHandler<MessageEventArgs> OnMessage;
 
-        private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
+        public Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
         {
             Gold = gold;
             ExperiencePoints = experiencePoints;
@@ -84,61 +84,6 @@ namespace Engine
             player.CurrentLocation = World.LocationByName("Home");
 
             return player;
-        }
-
-        public static Player CreatePlayerFromXmlString(string xmlPlayerData)
-        {
-            try
-            {
-                XmlDocument playerData = new XmlDocument();
-
-                playerData.LoadXml(xmlPlayerData);
-
-                int currentHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentHitPoints").InnerText);
-                int maximumHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/MaximumHitPoints").InnerText);
-                int gold = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/Gold").InnerText);
-                int experiencePoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/ExperiencePoints").InnerText);
-
-                Player player = new Player(currentHitPoints, maximumHitPoints, gold, experiencePoints);
-
-                int currentLocationID = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentLocation").InnerText);
-                player.CurrentLocation = World.LocationByID(currentLocationID);
-
-                if (playerData.SelectSingleNode("/Player/Stats/CurrentWeapon") != null)
-                {
-                    int currentWeaponID = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentWeapon").InnerText);
-                    player.CurrentWeapon = (Weapon)World.ItemByID(currentWeaponID);
-                }
-
-                foreach (XmlNode node in playerData.SelectNodes("/Player/InventoryItems/InventoryItem"))
-                {
-                    int id = Convert.ToInt32(node.Attributes["ID"].Value);
-                    int quantity = Convert.ToInt32(node.Attributes["Quantity"].Value);
-
-                    for (int i = 0; i < quantity; i++)
-                    {
-                        player.AddItemToInventory(World.ItemByID(id));
-                    }
-                }
-
-                foreach (XmlNode node in playerData.SelectNodes("/Player/PlayerQuests/PlayerQuest"))
-                {
-                    int id = Convert.ToInt32(node.Attributes["ID"].Value);
-                    bool isCompleted = Convert.ToBoolean(node.Attributes["IsCompleted"].Value);
-
-                    PlayerQuest playerQuest = new PlayerQuest(World.QuestByID(id));
-                    playerQuest.IsCompleted = isCompleted;
-
-                    player.Quests.Add(playerQuest);
-                }
-
-                return player;
-            }
-            catch
-            {
-                // If there was an error with the XML data, return a default player object
-                return Player.CreateDefaultPlayer();
-            }
         }
 
         public void MoveNorth()
@@ -237,19 +182,19 @@ namespace Engine
                             RaiseMessage("You receive: ", false);
                             RaiseMessage(newLocation.QuestAvailableHere.RewardExperiencePoints.ToString() + " experience points.", false);
                             RaiseMessage(newLocation.QuestAvailableHere.RewardGold.ToString() + " gold.", false);
-                            foreach (Item i in newLocation.QuestAvailableHere.RewardItems)
+                            foreach (InventoryItem i in newLocation.QuestAvailableHere.RewardItems)
                             {
-                                RaiseMessage(i.Name + ".", true);
+                                RaiseMessage(i.Quantity + " " + i.ItemName + ".", false);
                             }
+                            RaiseMessage("", false);
                             
-
                             AddExperiencePoints(newLocation.QuestAvailableHere.RewardExperiencePoints);
                             Gold += newLocation.QuestAvailableHere.RewardGold;
 
                             // Add the reward item to the player's inventory                            
-                            foreach (Item i in newLocation.QuestAvailableHere.RewardItems)
+                            foreach (InventoryItem i in newLocation.QuestAvailableHere.RewardItems)
                             {
-                                AddItemToInventory(i);
+                                AddItemToInventory(i.Details, i.Quantity);
                             }
 
                             // Mark the quest as completed
@@ -315,22 +260,15 @@ namespace Engine
 
                 //Add items to the lootedItems list, comparing a random number to a drop percentage
                 LootItem thingLooted = World.MonsterByID(CurrentMonster.ID).WeightedLootTable.GetRandomItemFromWeightedTable();
-                InventoryItem itemToAdd = new InventoryItem(thingLooted.Details, 1);
+                InventoryItem itemToAdd = new InventoryItem(thingLooted.Details, thingLooted.Number);
                 lootedItems.Add(itemToAdd);
 
                 //Add the looted items to the player's inventory
                 foreach (InventoryItem inventoryItem in lootedItems)
                 {
-                    AddItemToInventory(inventoryItem.Details);
+                    AddItemToInventory(inventoryItem.Details, inventoryItem.Quantity);
 
-                    if (inventoryItem.Quantity == 1)
-                    {
-                        RaiseMessage("You loot " + inventoryItem.Quantity.ToString() + " " + inventoryItem.Details.Name + ".", true);
-                    }
-                    else
-                    {
-                        RaiseMessage("You loot " + inventoryItem.Quantity.ToString() + " " + inventoryItem.Details.NamePlural + ".", true);
-                    }
+                    RaiseMessage("You loot " + inventoryItem.Quantity.ToString() + " " + inventoryItem.ItemName + ".", true);
                 }
 
                 //Move player to current location to heal and create a new monster
@@ -527,15 +465,15 @@ namespace Engine
             XmlNode stats = playerData.CreateElement("Stats");
             player.AppendChild(stats);
             
-            AddNode(playerData, stats, "CurrentHitPoints", CurrentHitPoints);                        
-            AddNode(playerData, stats, "MaximumHitPoints", MaximumHitPoints);
-            AddNode(playerData, stats, "Gold", Gold);
-            AddNode(playerData, stats, "ExperiencePoints", ExperiencePoints);
-            AddNode(playerData, stats, "CurrentLocation", CurrentLocation.ID);
+            SaveLoad.AddNode(playerData, stats, "CurrentHitPoints", CurrentHitPoints);
+            SaveLoad.AddNode(playerData, stats, "MaximumHitPoints", MaximumHitPoints);
+            SaveLoad.AddNode(playerData, stats, "Gold", Gold);
+            SaveLoad.AddNode(playerData, stats, "ExperiencePoints", ExperiencePoints);
+            SaveLoad.AddNode(playerData, stats, "CurrentLocation", CurrentLocation.ID);
 
             if (CurrentWeapon != null)
             {
-                AddNode(playerData, stats, "CurrentWeapon", CurrentWeapon.ID);
+                SaveLoad.AddNode(playerData, stats, "CurrentWeapon", CurrentWeapon.ID);
             }
 
             // Create the "InventoryItems" child node to hold each InventoryItem node
@@ -546,9 +484,9 @@ namespace Engine
             foreach (InventoryItem item in this.Inventory)
             {
                 XmlNode inventoryItem = playerData.CreateElement("InventoryItem");
-                
-                AddAttribute(playerData, inventoryItem, "ID", item.ItemID);
-                AddAttribute(playerData, inventoryItem, "Quantity", item.Quantity);
+
+                SaveLoad.AddAttribute(playerData, inventoryItem, "ID", item.ItemID);
+                SaveLoad.AddAttribute(playerData, inventoryItem, "Quantity", item.Quantity);
 
                 inventoryItems.AppendChild(inventoryItem);
             }
@@ -562,27 +500,13 @@ namespace Engine
             {
                 XmlNode playerQuest = playerData.CreateElement("PlayerQuest");
 
-                AddAttribute(playerData, playerQuest, "ID", quest.Details.ID);
-                AddAttribute(playerData, playerQuest, "IsCompleted", quest.IsCompleted);
+                SaveLoad.AddAttribute(playerData, playerQuest, "ID", quest.Details.ID);
+                SaveLoad.AddAttribute(playerData, playerQuest, "IsCompleted", quest.IsCompleted);
 
                 playerQuests.AppendChild(playerQuest);
             }
 
             return playerData.InnerXml; // The XML document, as a string, so we can save the data to disk
-        }
-
-        public void AddNode(XmlDocument doc, XmlNode parent, string name, object value)
-        {
-            XmlNode node = doc.CreateElement(name);
-            node.AppendChild(doc.CreateTextNode(value.ToString()));
-            parent.AppendChild(node);
-        }
-
-        public void AddAttribute(XmlDocument doc, XmlNode parent, string name, object value)
-        {
-            XmlAttribute node = doc.CreateAttribute(name);
-            node.Value = value.ToString();
-            parent.Attributes.Append(node);
         }
     }
 }

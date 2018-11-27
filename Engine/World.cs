@@ -59,7 +59,7 @@ namespace Engine
 
         //PopulateQuests has a frankly ugly fix for a mysterious bug. When I put the code in the WriteRealDescription function into
         //the Quest constructor, it just makes the whole project break. Supposedly there's a null reference exceprion when the 
-        //game tries to load in the first thing referencing the World class. It's weird.
+        //game tries to load in the first thing referencing the World class.
         private static void PopulateQuests()
         {
             Quest clearAlchemistGarden =

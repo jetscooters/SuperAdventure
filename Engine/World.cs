@@ -32,13 +32,12 @@ namespace Engine
             Items.Add(new Item("Snake fang", "Snake fangs", "The teeth of a serpent.", 1));
             Items.Add(new Item("Snakeskin", "Snakeskins", "Skin from a snake.", 2));
             Items.Add(new Weapon("Club", "Clubs", 7, 10, "A heavy length of wood.", 8));
-
             Items.Add(new Tool("Felling axe", "Felling axes", 7, 10, "An axe used to cut trees.", 7, ToolType.AXE));
-
             Items.Add(new HealingPotion("Healing potion", "Healing potions", 5, "A simple healing tincture.", 3));
             Items.Add(new Item("Spider fang", "Spider fangs", "A fang from some giant arachnoid.", 1));
             Items.Add(new Item("Spider silk", "Spider silks", "They say the stuff is stronger than steel.", 1));
             Items.Add(new Item("Adventurer pass", "Adventurer passes", "Used to get past the gate gaurd.", UNSELLABLE_ITEM_PRICE));
+            Items.Add(new Item("Wood", "Wood", "A piece of wood cut from a tree.", 1));
         }
 
         private static void PopulateMonsters()
@@ -108,6 +107,8 @@ namespace Engine
 
             Location spiderField = new Location("Forest", "You see spider webs covering covering the trees in this forest.");
 
+            Location smithy = new Location("Blacksmith", "The smell of iron fills the air.");
+
             // Link the locations together
             home.ToNorth = townSquare;
 
@@ -118,6 +119,9 @@ namespace Engine
 
             farmhouse.ToEast = townSquare;
             farmhouse.ToWest = farmersField;
+            farmhouse.ToSouth = smithy;
+
+            smithy.ToNorth = farmhouse;
 
             farmersField.ToEast = farmhouse;
 
@@ -139,6 +143,20 @@ namespace Engine
             bob.AddItemToInventory(ItemByName("Piece of fur"), 5);
             bob.AddItemToInventory(ItemByName("Rat tail"), 3);
             townSquare.VendorWorkingHere = bob;
+
+            Vendor alchemist = new Vendor("Alchemist");
+            alchemist.AddItemToInventory(ItemByName("Healing potion"), 5);
+            alchemistHut.VendorWorkingHere = alchemist;
+
+            Vendor blacksmith = new Vendor("Blacksmith");
+            blacksmith.AddItemToInventory(ItemByName("Broadsword"), 5);
+            blacksmith.AddItemToInventory(ItemByName("Club"), 5);
+            blacksmith.AddItemToInventory(ItemByName("Felling axe"), 3);
+            smithy.VendorWorkingHere = blacksmith;
+
+            // Add resources
+            ResourceNode tree = new ResourceNode("Tree", ItemByName("Wood"), ToolType.AXE);
+            spiderField.ResourceHere = tree;
 
             // Add monsters
             townSquare.MonstersHere.AddItem(MonsterByName("Rat"), 1);

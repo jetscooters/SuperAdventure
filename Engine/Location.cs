@@ -20,6 +20,7 @@ namespace Engine
         public Location ToSouth { get; set; }
         public Location ToWest { get; set; }
         public Vendor VendorWorkingHere { get; set; }
+        public ResourceNode ResourceHere { get; set; }
 
         public Monster GetMonster()
         {

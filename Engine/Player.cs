@@ -10,8 +10,16 @@ namespace Engine
     {
         private int _gold;
         private int _exp;
+        private int _turn;
         private Location _currentLocation;
         private Monster _currentMonster;
+        private ResourceNode _currentResource;
+
+        public int Turn
+        {
+            get { return _turn; }
+            set { _turn = value; }
+        }
 
         public int Gold
         {
@@ -55,6 +63,15 @@ namespace Engine
                 OnPropertyChanged("CurrentMonster");
             }
         }
+        public ResourceNode CurrentResource
+        {
+            get { return _currentResource; }
+            set
+            {
+                _currentResource = value;
+                OnPropertyChanged("CurrentResource");
+            }
+        }
         public List<Weapon> Weapons
         {
             get { return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }
@@ -62,6 +79,10 @@ namespace Engine
         public List<HealingPotion> Potions
         {
             get { return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList(); }
+        }
+        public List<Tool> Tools
+        {
+            get { return Inventory.Where(x => x.Details is Tool).Select(x => x.Details as Tool).ToList(); }
         }
         public BindingList<InventoryItem> Inventory { get; set; }
         public BindingList<PlayerQuest> Quests { get; set; }
@@ -72,6 +93,7 @@ namespace Engine
         {
             Gold = gold;
             ExperiencePoints = experiencePoints;
+            Turn = 0;
 
             Inventory = new BindingList<InventoryItem>();
             Quests = new BindingList<PlayerQuest>();
@@ -141,6 +163,8 @@ namespace Engine
             // Completely heal the player
             CurrentHitPoints = MaximumHitPoints;
 
+            CurrentResource = newLocation.ResourceHere;
+
             // Does the location have a monster?
             Monster mon = newLocation.GetMonster();
             if (mon != null)
@@ -153,6 +177,11 @@ namespace Engine
                 CurrentMonster = mon;
             }
 
+            CheckQuestCompletion(newLocation);            
+        }
+
+        public void CheckQuestCompletion(Location newLocation)
+        {
             // Does the location have a quest?
             if (newLocation.QuestAvailableHere != null)
             {
@@ -187,7 +216,7 @@ namespace Engine
                                 RaiseMessage(i.Quantity + " " + i.ItemName + ".", false);
                             }
                             RaiseMessage("", false);
-                            
+
                             AddExperiencePoints(newLocation.QuestAvailableHere.RewardExperiencePoints);
                             Gold += newLocation.QuestAvailableHere.RewardGold;
 
@@ -226,6 +255,22 @@ namespace Engine
 
                     // Add the quest to the player's quest list
                     Quests.Add(new PlayerQuest(newLocation.QuestAvailableHere));
+                }
+            }
+        }
+
+        public void UseTool(Tool tool)
+        {
+            if (CurrentLocation.ResourceHere != null)
+            {
+                if (tool.IsToolType(CurrentLocation.ResourceHere.ToolRequired))
+                {
+                    AddItemToInventory(World.ItemByID(CurrentLocation.ResourceHere.Resource.ID));
+                    RaiseMessage("You harvest " + CurrentLocation.ResourceHere.Resource.Name + " from the " + CurrentLocation.ResourceHere.Name + ".", true);
+                }
+                else
+                {
+                    RaiseMessage("Your " + tool.Name + " is not suitable for this task.", true);
                 }
             }
         }

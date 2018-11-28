@@ -98,6 +98,10 @@ namespace LillyAdventure
             cboPotions.DisplayMember = "Name";
             cboPotions.ValueMember = "ID";
 
+            cbTools.DataSource = _player.Tools;
+            cbTools.DisplayMember = "Name";
+            cbTools.ValueMember = "ID";
+
             _player.PropertyChanged += PlayerOnPropertyChanged;
             _player.OnMessage += Message;
 
@@ -215,6 +219,20 @@ namespace LillyAdventure
                 btnTrade.Visible = _player.CurrentLocation.VendorWorkingHere != null;                
             }
 
+            if (propertyChangedEventArgs.PropertyName == "CurrentResource")
+            {
+                if (_player.CurrentResource == null)
+                {
+                    cbTools.Visible = false;
+                    btnUseTool.Visible = false;
+                }
+                else
+                {
+                    cbTools.Visible = _player.Tools.Any();
+                    btnUseTool.Visible = _player.Tools.Any();
+                }
+            }
+
             if (propertyChangedEventArgs.PropertyName == "CurrentMonster")
             {
                 //update UI
@@ -269,6 +287,16 @@ namespace LillyAdventure
             TradingScreen tradingScreen = new TradingScreen(_player);
             tradingScreen.StartPosition = FormStartPosition.CenterParent;
             tradingScreen.ShowDialog(this);
+        }
+
+        private void btnUseTool_Click(object sender, EventArgs e)
+        {
+            _player.UseTool((Tool)cbTools.SelectedItem);
+        }
+
+        private void cbTools_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -50,6 +50,8 @@
             this.dgvInventory = new System.Windows.Forms.DataGridView();
             this.dgvQuests = new System.Windows.Forms.DataGridView();
             this.btnTrade = new System.Windows.Forms.Button();
+            this.cbTools = new System.Windows.Forms.ComboBox();
+            this.btnUseTool = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             this.SuspendLayout();
@@ -129,7 +131,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(617, 531);
+            this.label5.Location = new System.Drawing.Point(617, 497);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 17);
             this.label5.TabIndex = 9;
@@ -273,11 +275,32 @@
             this.btnTrade.UseVisualStyleBackColor = true;
             this.btnTrade.Click += new System.EventHandler(this.btnTrade_Click);
             // 
+            // cbTools
+            // 
+            this.cbTools.FormattingEnabled = true;
+            this.cbTools.Location = new System.Drawing.Point(369, 525);
+            this.cbTools.Name = "cbTools";
+            this.cbTools.Size = new System.Drawing.Size(121, 24);
+            this.cbTools.TabIndex = 22;
+            this.cbTools.SelectedIndexChanged += new System.EventHandler(this.cbTools_SelectedIndexChanged);
+            // 
+            // btnUseTool
+            // 
+            this.btnUseTool.Location = new System.Drawing.Point(620, 526);
+            this.btnUseTool.Name = "btnUseTool";
+            this.btnUseTool.Size = new System.Drawing.Size(75, 23);
+            this.btnUseTool.TabIndex = 23;
+            this.btnUseTool.Text = "Use";
+            this.btnUseTool.UseVisualStyleBackColor = true;
+            this.btnUseTool.Click += new System.EventHandler(this.btnUseTool_Click);
+            // 
             // LillyAdventure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 643);
+            this.Controls.Add(this.btnUseTool);
+            this.Controls.Add(this.cbTools);
             this.Controls.Add(this.btnTrade);
             this.Controls.Add(this.dgvQuests);
             this.Controls.Add(this.dgvInventory);
@@ -334,6 +357,8 @@
         private System.Windows.Forms.DataGridView dgvInventory;
         private System.Windows.Forms.DataGridView dgvQuests;
         private System.Windows.Forms.Button btnTrade;
+        private System.Windows.Forms.ComboBox cbTools;
+        private System.Windows.Forms.Button btnUseTool;
     }
 }
 

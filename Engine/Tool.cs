@@ -23,6 +23,7 @@ namespace Engine
 
     public enum ToolType
     {
+        NONE = -1,
         HAMMER = 0,
         AXE = 1,
         PICK = 2
